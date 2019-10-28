@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ProjectD</string>
+    <string name="tab_menu_alert">alert!!!</string>
+    <string name="tab_menu_profile">profile!!!</string>
+    <string name="tab_menu_setting">setting!!!</string>
+    <string name="tab_menu_pay">pay!!!</string>
+</resources>
