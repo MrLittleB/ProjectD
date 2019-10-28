@@ -23,7 +23,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //定义Fragment的管理器
         fManager = getSupportFragmentManager();
+        //找到radiogroup设置监听
         rg_tab_bar = findViewById(R.id.rg_tab_bar);
         rg_tab_bar.setOnCheckedChangeListener(this);
         //获取第一个单选按钮，并设置其为选中状态
@@ -33,8 +35,10 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     //UI组件初始化与事件绑定
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+
         FragmentTransaction fTransaction = fManager.beginTransaction();
         hideAllFragment(fTransaction);
+        //radiogroup的选择功能
         switch (checkedId){
             case R.id.rb_channel:
                 if(fg1 == null){
@@ -69,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 }
                 break;
         }
+
+        //Fragment提交
         fTransaction.commit();
     }
 
