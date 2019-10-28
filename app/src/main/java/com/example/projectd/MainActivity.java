@@ -3,88 +3,105 @@ package com.example.projectd;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
+public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,
+        ViewPager.OnPageChangeListener {
 
-    //定义单选按钮
+    //UI Objects
+    private TextView txt_topbar;
     private RadioGroup rg_tab_bar;
     private RadioButton rb_channel;
+    private RadioButton rb_message;
+    private RadioButton rb_better;
+    private RadioButton rb_setting;
+    private ViewPager vpager;
 
-    //Fragment Object
-    private MyFragment fg1,fg2,fg3,fg4;
-    private FragmentManager fManager;
+    private MyFragmentPagerAdapter mAdapter;
+
+    //几个代表页面的常量
+    public static final int PAGE_ONE = 0;
+    public static final int PAGE_TWO = 1;
+    public static final int PAGE_THREE = 2;
+    public static final int PAGE_FOUR = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //定义Fragment的管理器
-        fManager = getSupportFragmentManager();
-        //找到radiogroup设置监听
-        rg_tab_bar = findViewById(R.id.rg_tab_bar);
-        rg_tab_bar.setOnCheckedChangeListener(this);
-        //获取第一个单选按钮，并设置其为选中状态
-        rb_channel = findViewById(R.id.rb_channel);
+        mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        bindViews();
         rb_channel.setChecked(true);
     }
 
-    //UI组件初始化与事件绑定
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
+    private void bindViews() {
+        txt_topbar = (TextView) findViewById(R.id.txt_topbar);
+        rg_tab_bar = (RadioGroup) findViewById(R.id.rg_tab_bar);
+        rb_channel = (RadioButton) findViewById(R.id.rb_channel);
+        rb_message = (RadioButton) findViewById(R.id.rb_message);
+        rb_better = (RadioButton) findViewById(R.id.rb_better);
+        rb_setting = (RadioButton) findViewById(R.id.rb_setting);
+        rg_tab_bar.setOnCheckedChangeListener(this);
 
-        FragmentTransaction fTransaction = fManager.beginTransaction();
-        hideAllFragment(fTransaction);
-        //radiogroup的选择功能
-        switch (checkedId){
+        vpager = (ViewPager) findViewById(R.id.vpager);
+        vpager.setAdapter(mAdapter);
+        vpager.setCurrentItem(0);
+        vpager.addOnPageChangeListener(this);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
             case R.id.rb_channel:
-                if(fg1 == null){
-                    fg1 = new MyFragment("第一个Fragment");
-                    fTransaction.add(R.id.ly_content,fg1);
-                }else{
-                    fTransaction.show(fg1);
-                }
+                vpager.setCurrentItem(PAGE_ONE);
                 break;
             case R.id.rb_message:
-                if(fg2 == null){
-                    fg2 = new MyFragment("第二个Fragment");
-                    fTransaction.add(R.id.ly_content,fg2);
-                }else{
-                    fTransaction.show(fg2);
-                }
+                vpager.setCurrentItem(PAGE_TWO);
                 break;
             case R.id.rb_better:
-                if(fg3 == null){
-                    fg3 = new MyFragment("第三个Fragment");
-                    fTransaction.add(R.id.ly_content,fg3);
-                }else{
-                    fTransaction.show(fg3);
-                }
+                vpager.setCurrentItem(PAGE_THREE);
                 break;
             case R.id.rb_setting:
-                if(fg4 == null){
-                    fg4 = new MyFragment("第四个Fragment");
-                    fTransaction.add(R.id.ly_content,fg4);
-                }else{
-                    fTransaction.show(fg4);
-                }
+                vpager.setCurrentItem(PAGE_FOUR);
                 break;
         }
-
-        //Fragment提交
-        fTransaction.commit();
     }
 
 
-    //隐藏所有Fragment
-    private void hideAllFragment(FragmentTransaction fragmentTransaction){
-        if(fg1 != null)fragmentTransaction.hide(fg1);
-        if(fg2 != null)fragmentTransaction.hide(fg2);
-        if(fg3 != null)fragmentTransaction.hide(fg3);
-        if(fg4 != null)fragmentTransaction.hide(fg4);
+    //重写ViewPager页面切换的处理方法
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
 
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        //state的状态有三个，0表示什么都没做，1正在滑动，2滑动完毕
+        if (state == 2) {
+            switch (vpager.getCurrentItem()) {
+                case PAGE_ONE:
+                    rb_channel.setChecked(true);
+                    break;
+                case PAGE_TWO:
+                    rb_message.setChecked(true);
+                    break;
+                case PAGE_THREE:
+                    rb_better.setChecked(true);
+                    break;
+                case PAGE_FOUR:
+                    rb_setting.setChecked(true);
+                    break;
+            }
+        }
+    }
 }
