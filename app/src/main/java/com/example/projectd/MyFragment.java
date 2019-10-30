@@ -1,26 +1,16 @@
 package com.example.projectd;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 
-public class MyFragment extends Fragment {
+public class MyFragment  extends AppCompatActivity {
 
-    private String content;
-    public MyFragment(String content) {
-        this.content = content;
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_content,container,false);
-        TextView txt_content = view.findViewById(R.id.txt_content);
-        txt_content.setText(content);
-        return view;
+    protected void onCreate(Bundle savedInstanceState) {//固有
+        super.onCreate(savedInstanceState);//固有
+        setContentView(R.layout.testxxx);//固有
     }
 }
