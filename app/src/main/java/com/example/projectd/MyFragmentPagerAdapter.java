@@ -26,12 +26,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
 
-        datas = new ArrayList<Data>();
-        for (int i = 1; i <= 20; i++) {
-            Data data = new Data("新闻标题" + i, i + "~新闻内容~~~~~~~~");
-            datas.add(data);
-        }
-        myFragment1 = new MyFragment1(fm,datas);
+
+        myFragment1 = new MyFragment1(fm);
 //        FragmentTransaction ft = fm.beginTransaction();
 //        ft.replace(R.id.fl_content, myFragment1);
 //        ft.commit();

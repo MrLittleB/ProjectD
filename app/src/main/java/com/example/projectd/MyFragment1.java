@@ -17,15 +17,21 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 
-public class MyFragment1 extends Fragment implements AdapterView.OnItemClickListener{
+public class MyFragment1 extends Fragment implements AdapterView.OnItemClickListener {
     private ListView list_news;
     private FragmentManager fManager;
     private ArrayList<Data> datas;
 
 
-    public MyFragment1(FragmentManager fManager, ArrayList<Data> datas) {
+    public MyFragment1(FragmentManager fManager) {
         this.fManager = fManager;
-        this.datas = datas;
+
+        datas = new ArrayList<Data>();
+        for (int i = 1; i <= 20; i++) {
+            Data data = new Data("新闻标题" + i, i + "~新闻内容~~~~~~~~");
+            datas.add(data);
+        }
+
     }
 
     @Override
@@ -40,15 +46,11 @@ public class MyFragment1 extends Fragment implements AdapterView.OnItemClickList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(), "点了一下"+position,
-                Toast.LENGTH_SHORT).show();
         Intent intent1 = new Intent(getActivity(), NewsMainActivity.class);
         startActivity(intent1);
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
-
-
-
     }
+
+
 
 }
