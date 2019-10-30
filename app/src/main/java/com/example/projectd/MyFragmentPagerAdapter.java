@@ -1,10 +1,14 @@
 package com.example.projectd;
 
+
 import android.view.ViewGroup;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import java.util.ArrayList;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -14,10 +18,24 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     private MyFragment3 myFragment3 = null;
     private MyFragment4 myFragment4 = null;
 
+    private ArrayList<Data> datas = null;//列表的数据
+
+
+
 
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
-        myFragment1 = new MyFragment1();
+
+        datas = new ArrayList<Data>();
+        for (int i = 1; i <= 20; i++) {
+            Data data = new Data("新闻标题" + i, i + "~新闻内容~~~~~~~~");
+            datas.add(data);
+        }
+        myFragment1 = new MyFragment1(fm,datas);
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.replace(R.id.fl_content, myFragment1);
+//        ft.commit();
+
         myFragment2 = new MyFragment2();
         myFragment3 = new MyFragment3();
         myFragment4 = new MyFragment4();
