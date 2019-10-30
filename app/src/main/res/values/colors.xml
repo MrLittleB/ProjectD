@@ -10,4 +10,6 @@
     <color name="text_topbar">#46742E</color>
     <color name="div_white">#FFFFFF</color>
     <color name="bg_white">#FFFFFF</color>
+    <color name="white">#6F6F6F</color>
+    <color name="blue">#213397</color>
 </resources>

@@ -6,13 +6,20 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 
+
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener {
+
+    private FragmentManager fManager = getSupportFragmentManager();
 
     //UI Objects
     private TextView txt_topbar;
@@ -25,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     private MyFragmentPagerAdapter mAdapter;
 
+    private long exitTime = 0;//退出程序计时
+    private FrameLayout fl_content;//framelayout方式的列表的背景
+
     //几个代表页面的常量
     public static final int PAGE_ONE = 0;
     public static final int PAGE_TWO = 1;
@@ -33,11 +43,13 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+    protected void onCreate(Bundle savedInstanceState) {//固有
+        super.onCreate(savedInstanceState);//固有
+        setContentView(R.layout.activity_main);//固有
+        mAdapter = new MyFragmentPagerAdapter(fManager);
         bindViews();
+
+
         rb_channel.setChecked(true);
     }
 
@@ -54,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         vpager.setAdapter(mAdapter);
         vpager.setCurrentItem(0);
         vpager.addOnPageChangeListener(this);
+
+        fl_content = (FrameLayout) findViewById(R.id.fl_content);
     }
 
     @Override
@@ -102,6 +116,21 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     rb_setting.setChecked(true);
                     break;
             }
+        }
+    }
+
+    public void onBackPressed() {
+        if (fManager.getBackStackEntryCount() == 0) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                        Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                super.onBackPressed();
+            }
+        } else {
+            fManager.popBackStack();
+
         }
     }
 }

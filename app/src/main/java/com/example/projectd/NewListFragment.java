@@ -1,8 +1,9 @@
 package com.example.projectd;
 
-
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,32 +11,36 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import java.util.ArrayList;
 
-public class MyFragment1 extends Fragment /*implements AdapterView.OnItemClickListener*/{
-    private ListView list_news;
+/**
+ * Created by Jay on 2015/9/6 0006.
+ */
+public class NewListFragment extends Fragment  {
     private FragmentManager fManager;
     private ArrayList<Data> datas;
+    private ListView list_news;
 
+    public NewListFragment(){}
 
-    public MyFragment1(FragmentManager fManager, ArrayList<Data> datas) {
-        this.fManager = fManager;
-        this.datas = datas;
-    }
+//    public NewListFragment(FragmentManager fManager, ArrayList<Data> datas) {
+//        this.fManager = fManager;
+//        this.datas = datas;
+//    }
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fg_newlist, container, false);
         list_news = (ListView) view.findViewById(R.id.list_news);
-        MyAdapter myAdapter = new MyAdapter(datas, getActivity());//适配器初始化
+        MyAdapter myAdapter = new MyAdapter(datas, getActivity());
         list_news.setAdapter(myAdapter);
-//        list_news.setOnItemClickListener(this);
+
         return view;
     }
 
+
+
+//    @Override
 //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //        FragmentTransaction fTransaction = fManager.beginTransaction();
 //        NewContentFragment ncFragment = new NewContentFragment();
